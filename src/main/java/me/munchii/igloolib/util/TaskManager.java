@@ -23,7 +23,16 @@ public enum TaskManager {
 
         long delayTicks = timeUnit.convertToTicks(delay);
         long periodTicks = timeUnit.convertToTicks(period);
-        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Igloolib.INSTANCE, task, delayTicks, periodTicks);
+        Bukkit.getServer().getScheduler().runTaskTimer(Igloolib.INSTANCE, task, delayTicks, periodTicks);
+    }
+
+    public static void registerRepeatingAsyncTask(String name, Runnable task, int delay, int period, TimeUnit timeUnit) {
+        registerTask(name, task);
+
+        long delayTicks = timeUnit.convertToTicks(delay);
+        long periodTicks = timeUnit.convertToTicks(period);
+        // TODO: async is deprecated?
+        Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(Igloolib.INSTANCE, task, delayTicks, periodTicks);
     }
 
     public static Optional<Runnable> getTask(String name) {
@@ -32,6 +41,18 @@ public enum TaskManager {
 
     public static void runTask(String name) {
         getTask(name).ifPresent(task -> Bukkit.getServer().getScheduler().runTask(Igloolib.INSTANCE, task));
+    }
+
+    public static void runAsyncTask(String name) {
+        getTask(name).ifPresent(task -> Bukkit.getServer().getScheduler().runTaskAsynchronously(Igloolib.INSTANCE, task));
+    }
+
+    public static void runAnonymousTask(Runnable runnable) {
+        Bukkit.getServer().getScheduler().runTask(Igloolib.INSTANCE, runnable);
+    }
+
+    public static void runAnonymousAsyncTask(Runnable runnable) {
+        Bukkit.getServer().getScheduler().runTaskAsynchronously(Igloolib.INSTANCE, runnable);
     }
 
     public static Set<String> getKeys() {

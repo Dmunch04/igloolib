@@ -1,5 +1,6 @@
 package me.munchii.igloolib.gui;
 
+import me.munchii.igloolib.Igloolib;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -25,6 +26,8 @@ public class InventoryWindow implements IInventoryGUI, Listener {
     private final int columns;
 
     public InventoryWindow(String title, int rows, int columns) {
+        Bukkit.getServer().getPluginManager().registerEvents(this, Igloolib.INSTANCE);
+
         this.inventory = Bukkit.createInventory(null, rows * columns, title);
         this.slots = new HashMap<>();
 
