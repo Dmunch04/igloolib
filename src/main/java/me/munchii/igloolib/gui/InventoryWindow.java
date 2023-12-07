@@ -1,11 +1,9 @@
 package me.munchii.igloolib.gui;
 
-import me.munchii.igloolib.Igloolib;
 import me.munchii.igloolib.gui.slot.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

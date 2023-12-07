@@ -1,10 +1,12 @@
 package me.munchii.igloolib.gui;
 
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.inventory.Inventory;
+import me.munchii.igloolib.gui.slot.Slot;
 import org.bukkit.inventory.InventoryHolder;
+
+import java.util.Optional;
 
 public interface IInventoryGUI extends InventoryHolder {
     void onClick(InventoryClickEventContext context);
+
+    Optional<Slot> getSlot(int slotId);
 }

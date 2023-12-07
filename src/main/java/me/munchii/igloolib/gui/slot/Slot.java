@@ -27,4 +27,9 @@ public abstract class Slot {
     public int getAmount() {
         return amount;
     }
+
+    // TODO: allow for changing amount / material / stack?
+    // ^ needs to be able to update realtime
+    // so like Slot.setAmount(3); InventoryWindow.update();
+    // maybe??
 }
