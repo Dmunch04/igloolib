@@ -1,9 +1,8 @@
-package me.munchii.igloolib.gui;
+package me.munchii.igloolib.gui.slot;
 
+import me.munchii.igloolib.gui.InventoryActionResult;
+import me.munchii.igloolib.gui.InventoryClickEventContext;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public abstract class Slot {
@@ -19,7 +18,7 @@ public abstract class Slot {
         this.amount = stack.getAmount();
     }
 
-    public abstract InventoryActionResult onClick(ClickType type, Player player, Inventory inventory, int slot);
+    public abstract InventoryActionResult onClick(InventoryClickEventContext context);
 
     public ItemStack getStack() {
         return stack;

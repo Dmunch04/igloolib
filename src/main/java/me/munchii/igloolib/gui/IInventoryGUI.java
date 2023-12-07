@@ -6,5 +6,5 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
 public interface IInventoryGUI extends InventoryHolder {
-    void onClick(ClickType clickType, Player player, Inventory inventory, int slot);
+    void onClick(InventoryClickEventContext context);
 }
