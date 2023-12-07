@@ -26,9 +26,12 @@ public class DefaultWindowListener implements Listener {
                     if (event.getAction() == InventoryAction.PLACE_SOME) {
                         ItemStack stack = event.getCursor();
                         if (stack != null) {
-                            inputSlot.onInput(context, stack);
+                            InventoryActionResult actionResult = inputSlot.onInput(context, stack);
                             event.getWhoClicked().getInventory().remove(stack);
                             ((Player) event.getWhoClicked()).updateInventory();
+
+                            // TODO: is it safe to do this here?
+                            gui.handleActionResult(actionResult, context.player());
                         }
                     }
                 }

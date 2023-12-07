@@ -1,6 +1,8 @@
 package me.munchii.igloolib.module;
 
 import me.munchii.igloolib.Igloolib;
+import me.munchii.igloolib.command.BukkitCommandHandler;
+import me.munchii.igloolib.command.ICommandHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -18,34 +20,48 @@ public abstract class PluginModule {
     private final JavaPlugin instance;
     private boolean initialized;
 
+    private final ICommandHandler<?> commandHandler;
+
     public PluginModule(String name, boolean enabled) {
+        this(name, enabled, new BukkitCommandHandler());
+    }
+
+    public PluginModule(String name, boolean enabled, ICommandHandler<?> commandHandler) {
         this.name = name;
         this.listeners = new ArrayList<>();
         this.enabled = enabled;
 
         this.instance = Igloolib.INSTANCE;
         this.initialized = false;
+
+        this.commandHandler = commandHandler;
     }
 
     public abstract void onEnable();
     public abstract void onDisable();
 
     protected void enable() {
+        enabled = true;
         initialized = true;
 
         for (Listener listener : listeners) {
             Bukkit.getServer().getPluginManager().registerEvents(listener, instance);
         }
 
+        commandHandler.registerAll();
+
         this.onEnable();
     }
 
     protected void disable() {
+        enabled = false;
         initialized = false;
 
         for (Listener listener : listeners) {
             HandlerList.unregisterAll(listener);
         }
+
+        commandHandler.deregisterAll();
 
         this.onDisable();
     }
@@ -60,6 +76,10 @@ public abstract class PluginModule {
     public void deregisterListener(Listener listener) {
         listeners.remove(listener);
         HandlerList.unregisterAll(listener);
+    }
+
+    public ICommandHandler<?> getCommandHandler() {
+        return commandHandler;
     }
 
     public String getName() {

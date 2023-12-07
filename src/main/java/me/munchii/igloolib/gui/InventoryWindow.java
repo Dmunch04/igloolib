@@ -41,15 +41,18 @@ public class InventoryWindow implements IInventoryGUI {
     public void onClick(InventoryClickEventContext context) {
         if (slots.containsKey(context.slot())) {
             Slot slotItem = slots.get(context.slot());
-            InventoryActionResult result = slotItem.onClick(context);
+            handleActionResult(slotItem.onClick(context), context.player());
+        }
+    }
 
-            if (result == null) {
-                return;
-            }
+    @Override
+    public void handleActionResult(InventoryActionResult actionResult, Player player) {
+        if (actionResult == null) {
+            return;
+        }
 
-            if (result == InventoryActionResult.CLOSE) {
-                context.player().closeInventory();
-            }
+        if (actionResult == InventoryActionResult.CLOSE) {
+            player.closeInventory();
         }
     }
 

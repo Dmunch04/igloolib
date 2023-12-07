@@ -5,11 +5,28 @@ import me.munchii.igloolib.gui.InventoryClickEventContext;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public abstract class InputSlot extends Slot {
+import java.util.function.BiFunction;
+
+public class InputSlot extends Slot {
+    private final BiFunction<InventoryClickEventContext, ItemStack, InventoryActionResult> callback;
+
     public InputSlot() {
-        // TODO: does air work here?
-        super(Material.AIR);
+        this((ctx, stack) -> InventoryActionResult.PASS);
     }
 
-    public abstract InventoryActionResult onInput(InventoryClickEventContext context, ItemStack stack);
+    public InputSlot(BiFunction<InventoryClickEventContext, ItemStack, InventoryActionResult> callback) {
+        // TODO: does air work here?
+        super(Material.AIR);
+
+        this.callback = callback;
+    }
+
+    public InventoryActionResult onInput(InventoryClickEventContext context, ItemStack stack) {
+        return callback.apply(context, stack);
+    }
+
+    @Override
+    public InventoryActionResult onClick(InventoryClickEventContext context) {
+        return InventoryActionResult.PASS;
+    }
 }
