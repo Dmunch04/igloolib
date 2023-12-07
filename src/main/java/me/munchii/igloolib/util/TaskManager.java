@@ -31,7 +31,6 @@ public enum TaskManager {
 
         long delayTicks = timeUnit.convertToTicks(delay);
         long periodTicks = timeUnit.convertToTicks(period);
-        // TODO: async is deprecated?
         Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(Igloolib.INSTANCE, task, delayTicks, periodTicks);
     }
 

@@ -1,10 +1,8 @@
 package me.munchii.igloolib.chat.profanity;
 
-import me.munchii.igloolib.Igloolib;
 import me.munchii.igloolib.util.Resources;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public enum ProfanityFilter {
     INSTANCE;
@@ -16,7 +14,7 @@ public enum ProfanityFilter {
     static {
         Set<String> badWords = new HashSet<>();
         //Resources.readResourceFile(Igloolib.INSTANCE, "text/badwords.txt", line -> {
-        Resources.readResourceFile("text/badwords.txt", line -> {
+        Resources.readProjectResourceFile("text/badwords.txt", line -> {
             if (!line.startsWith("#")) {
                 badWords.add(line.trim().toLowerCase(Locale.ROOT));
             }
@@ -25,7 +23,7 @@ public enum ProfanityFilter {
 
         Set<String> safeWords = new HashSet<>();
         //Resources.readResourceFile(Igloolib.INSTANCE, "text/safewords.txt", line -> {
-        Resources.readResourceFile("text/safewords.txt", line -> {
+        Resources.readProjectResourceFile("text/safewords.txt", line -> {
             if (!line.startsWith("#")) {
                 safeWords.add(line.trim().toLowerCase(Locale.ROOT));
             }
@@ -34,7 +32,7 @@ public enum ProfanityFilter {
 
         Set<String> safeNames = new HashSet<>();
         //Resources.readResourceFile(Igloolib.INSTANCE, "text/safenames.txt", line -> {
-        Resources.readResourceFile("text/safenames.txt", line -> {
+        Resources.readProjectResourceFile("text/safenames.txt", line -> {
             if (!line.startsWith("#")) {
                 safeNames.add(line.trim().toLowerCase(Locale.ROOT));
             }

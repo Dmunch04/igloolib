@@ -33,7 +33,7 @@ public class Resources {
         }
     }
 
-    public static void readResourceFile(String path, Consumer<String> consumer) {
+    public static void readProjectResourceFile(String path, Consumer<String> consumer) {
         try {
             File file = new File("src/main/resources", path);
             InputStream stream = new FileInputStream(file);
