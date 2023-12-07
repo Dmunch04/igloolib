@@ -1,6 +1,7 @@
 package me.munchii.igloolib.gui;
 
 import me.munchii.igloolib.gui.slot.Slot;
+import me.munchii.igloolib.gui.slot.StaticSlot;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -74,12 +75,7 @@ public class InventoryWindow implements IInventoryGUI {
 
     public void fillVoidSlot(ItemStack stack) {
         for (int i = 0; i < inventory.getSize(); i++) {
-            setSlot(i, new Slot(stack) {
-                @Override
-                public InventoryActionResult onClick(InventoryClickEventContext context) {
-                    return InventoryActionResult.PASS;
-                }
-            });
+            setSlot(i, new StaticSlot(stack));
         }
     }
 
