@@ -9,6 +9,8 @@ public final class Igloolib extends JavaPlugin {
     @Override
     public void onEnable() {
         INSTANCE = this;
+
+        getLogger().info("igloolib initialized");
     }
 
     @Override

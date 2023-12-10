@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public interface ICommandHandler<T> {
+    // TODO: it is currently not possible to register a BukkitCommand when making a PluginModule because of `?`
     void registerCommand(T command);
 
     void registerCommand(Supplier<T> commandSupplier);

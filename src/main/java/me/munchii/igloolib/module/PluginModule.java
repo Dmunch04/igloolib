@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public abstract class PluginModule {
+// TODO: this sucks (the generic type)
+// TODO: make my own command system again, but this time based on BukkitCommand (but still allow for SubCommand)
+public abstract class PluginModule<T> {
     private final String name;
     private final List<Listener> listeners;
     private boolean enabled;
@@ -20,13 +22,15 @@ public abstract class PluginModule {
     private final JavaPlugin instance;
     private boolean initialized;
 
-    private final ICommandHandler<?> commandHandler;
+    private final ICommandHandler<T> commandHandler;
 
+    /*
     public PluginModule(String name, boolean enabled) {
         this(name, enabled, new BukkitCommandHandler());
     }
+     */
 
-    public PluginModule(String name, boolean enabled, ICommandHandler<?> commandHandler) {
+    public PluginModule(String name, boolean enabled, ICommandHandler<T> commandHandler) {
         this.name = name;
         this.listeners = new ArrayList<>();
         this.enabled = enabled;
@@ -78,7 +82,7 @@ public abstract class PluginModule {
         HandlerList.unregisterAll(listener);
     }
 
-    public ICommandHandler<?> getCommandHandler() {
+    public ICommandHandler<T> getCommandHandler() {
         return commandHandler;
     }
 
