@@ -2,6 +2,8 @@ package me.munchii.igloolib;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.function.Supplier;
+
 public final class Igloolib extends JavaPlugin {
 
     public static Igloolib INSTANCE = null;
