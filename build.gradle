@@ -1,9 +1,11 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
-group = 'me.munchii'
-version = '1.20.1-1.0'
+//group = 'me.munchii'
+group = 'com.github.munchii'
+version = '1.20.1-1.1'
 
 repositories {
     mavenCentral()
