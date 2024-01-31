@@ -53,6 +53,8 @@ public class CommandManager implements CommandExecutor, TabCompleter, Listener {
         if (args.length > 0 && hasCommand(args[0])) {
 
         }
+
+        return true;
     }
 
     @EventHandler
