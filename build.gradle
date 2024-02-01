@@ -69,5 +69,5 @@ publishing {
 }
 
 wrapper {
-    distributionType = DistributionType.ALL
+    distributionType = Wrapper.DistributionType.ALL
 }
