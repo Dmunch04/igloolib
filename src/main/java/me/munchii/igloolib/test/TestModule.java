@@ -1,26 +1,30 @@
 package me.munchii.igloolib.test;
 
-import me.munchii.igloolib.command.BukkitCommandHandler;
-import me.munchii.igloolib.command.CommandManager;
 import me.munchii.igloolib.command.IglooCommandGroup;
 import me.munchii.igloolib.test.command.TestCommand;
 import me.munchii.igloolib.module.PluginModule;
-import org.bukkit.command.defaults.BukkitCommand;
+import me.munchii.igloolib.test.command.TestSubOneCommand;
+import me.munchii.igloolib.test.command.TestSubTwoCommand;
 
-import java.util.Set;
-
-public class TestModule extends PluginModule<BukkitCommand> {
+public class TestModule extends PluginModule {
     public TestModule() {
-        super("test", true, new BukkitCommandHandler());
+        super("test", true);
     }
 
     @Override
     public void onEnable() {
-        CommandManager commandManager = new CommandManager();
+        getCommandManager()
+                .registerCommand(TestCommand::new)
+                .registerCommandGroup(new IglooCommandGroup("farming")
+                        .registerCommand(TestSubOneCommand::new)
+                        .registerCommand(TestSubTwoCommand::new)
+                );
 
-        commandManager.registerCommand(Set.of("yeet", "ye"), TestCommand::new);
-
-        IglooCommandGroup cmdGroup = new IglooCommandGroup("farming");
+        // =>
+        //  - /test /tt
+        //  - /farming
+        //    - /farming subone
+        //    - /farming subtwo
     }
 
     @Override

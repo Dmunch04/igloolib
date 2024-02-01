@@ -38,6 +38,10 @@ public class InventoryWindow implements IInventoryGUI {
         player.openInventory(inventory);
     }
 
+    public void refresh() {
+        slots.forEach((slotId, slot) -> inventory.setItem(slotId, slot.getStack()));
+    }
+
     @Override
     public void onClick(InventoryClickEventContext context) {
         if (slots.containsKey(context.slot())) {
@@ -54,6 +58,8 @@ public class InventoryWindow implements IInventoryGUI {
 
         if (actionResult == InventoryActionResult.CLOSE) {
             player.closeInventory();
+        } else if (actionResult == InventoryActionResult.REFRESH) {
+            refresh();
         }
     }
 
@@ -83,12 +89,21 @@ public class InventoryWindow implements IInventoryGUI {
         IntStream.range(0, inventory.getSize()).forEach(i -> setSlot(i, slot));
     }
 
+    public void clear() {
+        slots.clear();
+        inventory.clear();
+    }
+
     public void setSlot(int slotId, Slot slot) {
         slots.put(slotId, slot);
     }
 
     public Optional<Slot> getSlot(int slotId) {
         return slots.containsKey(slotId) ? Optional.of(slots.get(slotId)) : Optional.empty();
+    }
+
+    public int slotAmount() {
+        return slots.size();
     }
 
     public String getTitle() {

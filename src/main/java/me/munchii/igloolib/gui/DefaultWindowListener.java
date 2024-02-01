@@ -12,8 +12,10 @@ import org.bukkit.inventory.ItemStack;
 public class DefaultWindowListener implements Listener {
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent event) {
-        if (event.getInventory().getHolder() instanceof IInventoryGUI) {
-            event.setCancelled(true);
+        if (event.getInventory().getHolder() instanceof IInventoryGUI gui) {
+            if (!gui.draggable()) {
+                event.setCancelled(true);
+            }
         }
     }
 

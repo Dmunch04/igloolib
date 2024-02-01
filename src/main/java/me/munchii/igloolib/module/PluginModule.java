@@ -1,6 +1,6 @@
 package me.munchii.igloolib.module;
 
-import me.munchii.igloolib.command.ICommandHandler;
+import me.munchii.igloolib.command.CommandManager;
 import me.munchii.igloolib.Igloolib;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
@@ -11,9 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-// TODO: this sucks (the generic type)
-// TODO: make my own command system again, but this time based on BukkitCommand (but still allow for SubCommand)
-public abstract class PluginModule<T> {
+public abstract class PluginModule {
     private final String name;
     private final List<Listener> listeners;
     private boolean enabled;
@@ -21,15 +19,9 @@ public abstract class PluginModule<T> {
     private final JavaPlugin instance;
     private boolean initialized;
 
-    private final ICommandHandler<T> commandHandler;
+    private final CommandManager commandManager;
 
-    /*
     public PluginModule(String name, boolean enabled) {
-        this(name, enabled, new BukkitCommandHandler());
-    }
-     */
-
-    public PluginModule(String name, boolean enabled, ICommandHandler<T> commandHandler) {
         this.name = name;
         this.listeners = new ArrayList<>();
         this.enabled = enabled;
@@ -37,7 +29,7 @@ public abstract class PluginModule<T> {
         this.instance = Igloolib.INSTANCE;
         this.initialized = false;
 
-        this.commandHandler = commandHandler;
+        this.commandManager = new CommandManager();
     }
 
     public abstract void onEnable();
@@ -51,7 +43,7 @@ public abstract class PluginModule<T> {
             Bukkit.getServer().getPluginManager().registerEvents(listener, instance);
         }
 
-        commandHandler.registerAll();
+        commandManager.enable();
 
         this.onEnable();
     }
@@ -64,7 +56,7 @@ public abstract class PluginModule<T> {
             HandlerList.unregisterAll(listener);
         }
 
-        commandHandler.deregisterAll();
+        commandManager.disable();
 
         this.onDisable();
     }
@@ -81,8 +73,8 @@ public abstract class PluginModule<T> {
         HandlerList.unregisterAll(listener);
     }
 
-    public ICommandHandler<T> getCommandHandler() {
-        return commandHandler;
+    public CommandManager getCommandManager() {
+        return commandManager;
     }
 
     public String getName() {

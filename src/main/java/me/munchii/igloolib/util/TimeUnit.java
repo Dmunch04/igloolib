@@ -1,7 +1,6 @@
 package me.munchii.igloolib.util;
 
-import com.mojang.datafixers.util.Pair;
-
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
@@ -26,6 +25,13 @@ public enum TimeUnit {
     public static long make(List<Pair<Integer, TimeUnit>> times) {
         AtomicLong ticks = new AtomicLong();
         times.forEach(time -> ticks.addAndGet(time.getSecond().convertToTicks(time.getFirst())));
+
+        return ticks.get();
+    }
+
+    public static long make(Pair<Integer, TimeUnit>... times) {
+        AtomicLong ticks = new AtomicLong();
+        Arrays.stream(times).forEach(time -> ticks.addAndGet(time.getSecond().convertToTicks(time.getFirst())));
 
         return ticks.get();
     }

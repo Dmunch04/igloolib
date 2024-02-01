@@ -12,4 +12,8 @@ public interface IInventoryGUI extends InventoryHolder {
     Optional<Slot> getSlot(int slotId);
 
     void handleActionResult(InventoryActionResult actionResult, Player player);
+
+    default boolean draggable() {
+        return false;
+    }
 }
