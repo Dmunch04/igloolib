@@ -2,17 +2,33 @@ package me.munchii.igloolib;
 
 import java.util.function.Supplier;
 
-public enum IglooVersion {
-    RELEASE,
-    DEV;
-
+public class IglooVersion {
     // no idea if this actually works. it works in dev/test env
-    public static final Supplier<IglooVersion> VERSION = () -> {
+    public static final Supplier<Environment> ENV = () -> {
         try {
             Class<?> pluginClass = Class.forName("org.bukkit.plugin.java.JavaPlugin");
-            return IglooVersion.RELEASE;
+            return Environment.RELEASE;
         } catch (ClassNotFoundException e) {
-            return IglooVersion.DEV;
+            return Environment.DEV;
         }
     };
+
+    public enum Environment {
+        RELEASE(false),
+        DEV(true);
+
+        private final boolean development;
+
+        Environment(boolean isDev) {
+            development = isDev;
+        }
+
+        public final boolean isDevelopment() {
+            return development;
+        }
+
+        public final boolean isRelease() {
+            return !development;
+        }
+    }
 }
