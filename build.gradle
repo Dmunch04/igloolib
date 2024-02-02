@@ -61,7 +61,7 @@ processResources {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            groupId = 'com.github.Dmunch04'
+            groupId = 'me.munchii'
             artifactId = 'igloolib'
             version = '1.20.2-1.4'
         }
