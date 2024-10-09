@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/GitHub.igloolib.main.iml" filepath="$PROJECT_DIR$/.idea/modules/GitHub.igloolib.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/igloolib.main.iml" filepath="$PROJECT_DIR$/.idea/modules/igloolib.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/igloolib.test.iml" filepath="$PROJECT_DIR$/.idea/modules/igloolib.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/me.munchii.igloolib.main.iml" filepath="$PROJECT_DIR$/.idea/modules/me.munchii.igloolib.main.iml" />
     </modules>
   </component>

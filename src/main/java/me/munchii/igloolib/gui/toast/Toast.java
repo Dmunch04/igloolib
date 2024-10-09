@@ -5,6 +5,7 @@ import me.munchii.igloolib.util.Duration;
 import me.munchii.igloolib.util.TaskManager;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.advancement.Advancement;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -18,7 +19,7 @@ public final class Toast {
 
     public Toast(String icon, String message, ToastStyle style) {
         //this.key = new NamespacedKey(Igloolib.INSTANCE, UUID.randomUUID().toString());
-        this.key = new NamespacedKey(Igloolib.INSTANCE, "YEEEEET1334345343454");
+        this.key = new NamespacedKey(Igloolib.INSTANCE, UUID.randomUUID().toString());
         this.icon = icon;
         this.message = message;
         this.style = style;
@@ -37,7 +38,7 @@ public final class Toast {
 
     private void createAdvancement() {
         Bukkit.reloadData();
-        Bukkit.getUnsafe().loadAdvancement(key, "{\n" +
+        /*Advancement advancement = Bukkit.getUnsafe().loadAdvancement(key, "{\n" +
                 "    \"criteria\": {\n" +
                 "        \"trigger\": {\n" +
                 "            \"trigger\": \"minecraft:impossible\"\n" +
@@ -45,7 +46,7 @@ public final class Toast {
                 "    },\n" +
                 "    \"display\": {\n" +
                 "        \"icon\": {\n" +
-                "            \"item\": \"minecraft:" + icon + "\"\n" +
+                "            \"id\": \"minecraft:" + icon + "\"\n" +
                 "        },\n" +
                 "        \"title\": {\n" +
                 "            \"text\": \"" + message.replace("|", "\n") + "\"\n" +
@@ -64,7 +65,13 @@ public final class Toast {
                 "            \"trigger\"\n" +
                 "        ]\n" +
                 "    ]\n" +
-                "}");
+                "}");*/
+
+        //Advancement advancement = Bukkit.getUnsafe().loadAdvancement(key, "{\"display\":{\"icon\":{\"id\":\"minecraft:stone\",\"count\":1},\"title\":\"yeet\",\"description\":\"\",\"background\":\"minecraft:textures/gui/advancements/backgrounds/stone.png\",\"frame\":\"goal\",\"show_toast\":true,\"announce_to_chat\":false,\"hidden\":true},\"criteria\":{\"trigger\":{\"trigger\":\"minecraft:impossible\"}},\"requirements\":[[\"trigger\"]],\"sends_telemetry_event\":false}\n");
+        Advancement advancement = Bukkit.getUnsafe().loadAdvancement(key, "{\"display\":{\"icon\":{\"item\":\"minecraft:acacia_door\"},\"title\":\"yeet\",\"description\":\"\",\"background\":\"minecraft:textures/gui/advancements/backgrounds/stone.png\",\"frame\":\"goal\",\"show_toast\":true,\"announce_to_chat\":false,\"hidden\":true},\"criteria\":{\"trigger\":{\"trigger\":\"minecraft:impossible\"}},\"requirements\":[[\"trigger\"]],\"sends_telemetry_event\":false}");
+
+        Igloolib.INSTANCE.getLogger().severe(advancement.getKey().toString());
+        Igloolib.INSTANCE.getLogger().severe(advancement.getDisplay().getTitle());
     }
 
     private void grantAdvancement(Player player) {

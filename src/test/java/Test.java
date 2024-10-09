@@ -34,9 +34,9 @@ public class Test {
         EntityLiving entityLiving = new EntityBat(null, null);
 
         CraftPlayer player = (CraftPlayer) Bukkit.getPlayer("dmunch04");
-        IChatBaseComponent cbc = IChatBaseComponent.ChatSerializer.fromJson("");
-        ClientboundSystemChatPacket packet = new ClientboundSystemChatPacket(cbc, true);
-        player.getHandle().connection.send(packet);
+        //IChatBaseComponent cbc = IChatBaseComponent.ChatSerializer.fromJson("");
+        //ClientboundSystemChatPacket packet = new ClientboundSystemChatPacket(cbc, true);
+        //player.getHandle().connection.send(packet);
 
         EntityArmorStand entityArmorStand;
     }

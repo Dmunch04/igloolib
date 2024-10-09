@@ -13,3 +13,6 @@ commands:
   test:
     description: a
     usage: b
+  yeet:
+    description: a
+    usage: b

@@ -9,6 +9,8 @@ import me.munchii.igloolib.command.IglooCommand;
 import me.munchii.igloolib.command.IglooCommandGroup;
 import me.munchii.igloolib.config.Configuration;
 import me.munchii.igloolib.gui.inventory.DefaultWindowListener;
+import me.munchii.igloolib.gui.toast.Toast;
+import me.munchii.igloolib.gui.toast.ToastStyle;
 import me.munchii.igloolib.gui.window.FurnaceWindow;
 import me.munchii.igloolib.nms.IglooBlockDisplay;
 import me.munchii.igloolib.registry.IglooRegistry;
@@ -48,6 +50,14 @@ public final class Igloolib extends JavaPlugin {
         registerListener(ScreenListener::new);
 
         commandManager = new CommandManager();
+        commandManager.registerCommand(IglooCommand.create("yeet")
+                .withAction(ctx -> {
+                    //Toast toast = new Toast("stone", "fuck you", ToastStyle.GOAL);
+                    //toast.displayTo(ctx.getPlayer().getPlayer(), new Duration(10, TimeUnit.SECOND));
+
+                    return true;
+                })
+                .build());
         commandManager.registerCommand(IglooCommand.create("test")
                 .withAction(ctx -> {
                     /*Location pos = ctx.getPlayer().getLocation().add(0, 5, 0);
@@ -96,6 +106,7 @@ public final class Igloolib extends JavaPlugin {
 
                     FurnaceWindow furnaceWindow = new FurnaceWindow("yeet", window -> {
                         if (!window.getInputSlot().isEmpty() && !window.getFuelSlot().isEmpty()) {
+
                         }
                     });
                     InventoryView view = furnaceWindow.open(ctx.getPlayer());
@@ -106,9 +117,9 @@ public final class Igloolib extends JavaPlugin {
                     //((Player) view.getPlayer()).updateInventory();
 
                     TaskManager.runAnonymousDelayedTask(() -> {
-                        Logger.severe("input=" + furnaceWindow.getInputSlot());
-                        Logger.severe("fuel=" + furnaceWindow.getFuelSlot());
-                        Logger.severe("output=" + furnaceWindow.getOutputSlot());
+                        Logger.severe("input=" + furnaceWindow.getInputSlot().getMaterialId());
+                        Logger.severe("fuel=" + furnaceWindow.getFuelSlot().getMaterialId());
+                        Logger.severe("output=" + furnaceWindow.getOutputSlot().getMaterialId());
                     }, 20, TimeUnit.SECOND);
 
                     return true;

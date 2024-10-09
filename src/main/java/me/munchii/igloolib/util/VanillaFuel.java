@@ -36,4 +36,14 @@ public enum VanillaFuel {
         this.fuelType = fuelType;
         this.burnTime = burnTime;
     }
+
+    public static int getBurnTime(Material material) {
+        for (VanillaFuel fuel : values()) {
+            if (fuel.fuelType.contains(material)) {
+                return fuel.burnTime;
+            }
+        }
+
+        return 0;
+    }
 }

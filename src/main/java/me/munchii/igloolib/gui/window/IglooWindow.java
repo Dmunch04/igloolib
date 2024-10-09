@@ -27,4 +27,6 @@ public interface IglooWindow extends InventoryHolder {
             }
         }
     }
+
+    interface VanillaBehaviour {}
 }

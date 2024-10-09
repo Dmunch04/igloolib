@@ -32,6 +32,14 @@ public final class IglooItemStack {
         return of(block.asItem().getItem());
     }
 
+    public String getMaterialId() {
+        return nmsStack.d().toString();
+    }
+
+    public Material getMaterial() {
+        return Material.getMaterial(getMaterialId());
+    }
+
     public boolean isEmpty() {
         return nmsStack.b();
     }
