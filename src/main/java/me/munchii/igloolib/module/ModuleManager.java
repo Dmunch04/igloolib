@@ -2,6 +2,7 @@ package me.munchii.igloolib.module;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class ModuleManager {
     private final Map<String, PluginModule> modules;
@@ -16,6 +17,10 @@ public class ModuleManager {
         if (module.isEnabled()) {
             module.enable();
         }
+    }
+
+    public void registerModule(Supplier<PluginModule> module) {
+        registerModule(module.get());
     }
 
     public void setModuleEnabled(String name, boolean enabled) {

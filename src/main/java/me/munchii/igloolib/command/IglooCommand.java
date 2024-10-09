@@ -1,5 +1,6 @@
 package me.munchii.igloolib.command;
 
+import me.munchii.igloolib.player.IglooPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -7,21 +8,22 @@ import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public abstract class IglooCommand implements CommandExecutor, TabCompleter {
     private final String command;
     private final Set<String> aliases;
     private final String permission;
     private final String description;
+    private final String usage;
     private boolean enabled;
 
+    private IglooCommandGroup group = null;
+
     public IglooCommand(String command) {
-        this(command, Collections.emptySet(), "", "command /" + command);
+        this(command, new HashSet<>(), "", "command /" + command);
     }
 
     public IglooCommand(String command, Set<String> aliases) {
@@ -29,14 +31,19 @@ public abstract class IglooCommand implements CommandExecutor, TabCompleter {
     }
 
     public IglooCommand(String command, Set<String> aliases, String permission) {
-        this(command, Collections.emptySet(), permission, "command /" + command);
+        this(command, aliases, permission, "command /" + command);
     }
 
     public IglooCommand(String command, Set<String> aliases, String permission, String description) {
+        this(command, aliases, permission, description, "/" + command);
+    }
+
+    public IglooCommand(String command, Set<String> aliases, String permission, String description, String usage) {
         this.command = command;
         this.aliases = aliases;
         this.permission = permission;
         this.description = description;
+        this.usage = usage;
     }
 
     public static Builder create(String command) {
@@ -56,11 +63,15 @@ public abstract class IglooCommand implements CommandExecutor, TabCompleter {
     }
 
     public boolean hasPermission() {
-        return permission.isEmpty();
+        return permission != null && permission.isEmpty();
     }
 
     public String getDescription() {
         return description;
+    }
+
+    public String getUsage() {
+        return usage;
     }
 
     public boolean isEnabled() {
@@ -71,16 +82,27 @@ public abstract class IglooCommand implements CommandExecutor, TabCompleter {
         this.enabled = enabled;
     }
 
+    @Nullable
+    public IglooCommandGroup getGroup() {
+        return group;
+    }
+
+    public void setGroup(@Nullable IglooCommandGroup group) {
+        this.group = group;
+    }
+
     public static final class Builder {
-        private String command;
-        private Set<String> aliases;
+        private final String command;
+        private final Set<String> aliases;
         private String permission;
         private String description;
-        private BiFunction<CommandSender, List<String>, Boolean> onCommand;
-        private BiFunction<CommandSender, List<String>, List<String>> tabComplete;
+        private String usage;
+        private Function<CommandExecutionContext, Boolean> onCommand = ctx -> true;
+        private BiFunction<CommandSender, List<String>, List<String>> tabComplete = (s, a) -> new ArrayList<>();
 
         public Builder(String cmd) {
             this.command = cmd;
+            this.aliases = new HashSet<>();
         }
 
         public Builder withAlias(String alias) {
@@ -98,7 +120,12 @@ public abstract class IglooCommand implements CommandExecutor, TabCompleter {
             return this;
         }
 
-        public Builder withAction(BiFunction<CommandSender, List<String>, Boolean> onCommand) {
+        public Builder withUsage(String usage) {
+            this.usage = usage;
+            return this;
+        }
+
+        public Builder withAction(Function<CommandExecutionContext, Boolean> onCommand) {
             this.onCommand = onCommand;
             return this;
         }
@@ -109,10 +136,11 @@ public abstract class IglooCommand implements CommandExecutor, TabCompleter {
         }
 
         public IglooCommand build() {
-            return new IglooCommand(command, aliases, permission, description) {
+            return new IglooCommand(command, aliases, permission, description, usage) {
                 @Override
                 public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-                    return onCommand.apply(sender, Arrays.asList(args));
+                    final CommandExecutionContext ctx = new CommandExecutionContext(IglooPlayer.get(sender), this, args);
+                    return onCommand.apply(ctx);
                 }
 
                 @Nullable

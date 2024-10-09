@@ -27,8 +27,14 @@ dependencies {
     // commons-io version 20030203.000550 does not have FileUtils.readFileToString
     implementation group: 'commons-io', name: 'commons-io', version: '2.6'
 
+    testImplementation fileTree(dir: '../lib', include: 'minecraft-server-1.20.2-R0.1-SNAPSHOT.jar')
+    testImplementation "org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT"
+    testImplementation "org.spigotmc:spigot:1.20.2-R0.1-SNAPSHOT"
+
     compileOnly "org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT"
-    compileOnly fileTree(dir: 'lib', include: '*.jar')
+    compileOnly "org.spigotmc:spigot:1.20.2-R0.1-SNAPSHOT"
+    compileOnly "org.spigotmc:minecraft-server:1.20.2-R0.1-SNAPSHOT"
+    //compileOnly fileTree(dir: 'lib', include: '*.jar')
 }
 
 def targetJavaVersion = 17
@@ -59,11 +65,24 @@ processResources {
 
 
 publishing {
+    repositories {
+        maven {
+            name = "reposiliteReleases"
+            url = "https://mvn.munchii.me/releases"
+            credentials(PasswordCredentials)
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+    }
+
     publications {
         mavenJava(MavenPublication) {
             groupId = 'me.munchii'
             artifactId = 'igloolib'
             version = '1.20.2-1.4'
+
+            from components.java
         }
     }
 }

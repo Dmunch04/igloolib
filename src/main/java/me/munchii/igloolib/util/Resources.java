@@ -1,11 +1,13 @@
 package me.munchii.igloolib.util;
 
-import org.bukkit.Bukkit;
+import me.munchii.igloolib.Igloolib;
+import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.logging.Level;
 import java.util.stream.Stream;
 
 public class Resources {
@@ -16,7 +18,7 @@ public class Resources {
             InputStreamReader streamReader = new InputStreamReader(stream);
             return new BufferedReader(streamReader).lines();
         } catch (FileNotFoundException e) {
-            Bukkit.getLogger().warning(e::getMessage);
+            Logger.warning(e::getMessage);
             return null;
         }
     }
@@ -29,7 +31,7 @@ public class Resources {
             BufferedReader reader = new BufferedReader(streamReader);
             reader.lines().forEach(consumer);
         } catch (FileNotFoundException e) {
-            Bukkit.getLogger().log(Level.SEVERE, e::getMessage);
+            Logger.warning(e::getMessage);
         }
     }
 
@@ -43,5 +45,37 @@ public class Resources {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public static Optional<File> getDataFile(JavaPlugin plugin, String path) {
+        Path filePath = Path.of(plugin.getDataFolder().getPath(), "data", path, ".json");
+        File file = new File(plugin.getDataFolder() + "/data", path + ".json");
+        if (!file.exists()) {
+            return createDataFile(plugin, path);
+        } else {
+            return Optional.of(file);
+        }
+    }
+
+    public static Optional<File> createDataFile(JavaPlugin plugin, String path) {
+        Path filePath = Path.of(plugin.getDataFolder().getPath(), "data", path, ".json");
+        File file = new File(filePath.toUri());
+        try {
+            if (file.createNewFile()) {
+                return Optional.of(file);
+            }
+        } catch (IOException e) {
+            Logger.severe("could not create data file: " + filePath.toUri());
+        }
+
+        return Optional.empty();
+    }
+
+    public static NamespacedKey id(JavaPlugin plugin, String path) {
+        return new NamespacedKey(plugin, path);
+    }
+
+    public static NamespacedKey id(String path) {
+        return id(Igloolib.INSTANCE, path);
     }
 }

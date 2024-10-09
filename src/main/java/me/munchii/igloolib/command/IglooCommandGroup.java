@@ -2,6 +2,8 @@ package me.munchii.igloolib.command;
 
 import me.munchii.igloolib.Igloolib;
 import me.munchii.igloolib.util.ArrayUtil;
+import me.munchii.igloolib.util.Logger;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -39,12 +41,17 @@ public class IglooCommandGroup implements CommandExecutor, TabCompleter, Listene
         enable();
     }
 
+    public static Builder create(String groupCommand) {
+        return new Builder(groupCommand);
+    }
+
     public void enable() {
         if (enabled) return;
 
         Objects.requireNonNull(Igloolib.INSTANCE.getCommand(groupCommand)).setExecutor(this);
         Objects.requireNonNull(Igloolib.INSTANCE.getCommand(groupCommand)).setTabCompleter(this);
         Objects.requireNonNull(Igloolib.INSTANCE.getCommand(groupCommand)).register(((CraftServer) Igloolib.INSTANCE.getServer()).getCommandMap());
+        enableAll();
         enabled = true;
     }
 
@@ -54,6 +61,7 @@ public class IglooCommandGroup implements CommandExecutor, TabCompleter, Listene
         Objects.requireNonNull(Igloolib.INSTANCE.getCommand(groupCommand)).setExecutor(null);
         Objects.requireNonNull(Igloolib.INSTANCE.getCommand(groupCommand)).setTabCompleter(null);
         Objects.requireNonNull(Igloolib.INSTANCE.getCommand(groupCommand)).unregister(((CraftServer) Igloolib.INSTANCE.getServer()).getCommandMap());
+        disableAll();
         enabled = false;
     }
 
@@ -133,6 +141,7 @@ public class IglooCommandGroup implements CommandExecutor, TabCompleter, Listene
 
     public IglooCommandGroup registerCommand(IglooCommand subCommand) {
         if (!hasCommand(subCommand)) {
+            subCommand.setGroup(this);
             subCommands.add(subCommand);
         }
 
@@ -142,6 +151,7 @@ public class IglooCommandGroup implements CommandExecutor, TabCompleter, Listene
     public IglooCommandGroup registerCommand(Supplier<IglooCommand> subCommand) {
         IglooCommand cmd = subCommand.get();
         if (!hasCommand(cmd)) {
+            cmd.setGroup(this);
             subCommands.add(cmd);
         }
 
@@ -167,12 +177,14 @@ public class IglooCommandGroup implements CommandExecutor, TabCompleter, Listene
 
     public boolean hasCommand(String cmd) {
         return subCommands.stream()
-                .anyMatch(subCommand -> subCommand.getCommandAliases().contains(cmd) || subCommand.getCommand().equals(cmd));
+                .anyMatch(subCommand -> subCommand.getCommand().equals(cmd)
+                        || subCommand.getCommandAliases().contains(cmd));
     }
 
     public boolean hasCommand(Set<String> aliases) {
         return subCommands.stream()
-                .anyMatch(subCommand -> subCommand.getCommandAliases().containsAll(aliases) || aliases.contains(subCommand.getCommand()));
+                .anyMatch(subCommand -> aliases.contains(subCommand.getCommand())
+                        || subCommand.getCommandAliases().stream().anyMatch(aliases::contains));
     }
 
     public IglooCommand getSubCommand(String cmd) {
@@ -199,5 +211,57 @@ public class IglooCommandGroup implements CommandExecutor, TabCompleter, Listene
 
     public boolean isEnabled() {
         return enabled;
+    }
+
+    protected void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Set<IglooCommand> getSubCommands() {
+        return Collections.unmodifiableSet(subCommands);
+    }
+
+    public static class Builder {
+        private final String groupCommand;
+
+        private Set<String> groupAliases = Collections.emptySet();
+        private IglooCommandPermissionHandler permissionHandler;
+        private Set<IglooCommand> commands = new HashSet<>();
+
+        public Builder(String groupCommand) {
+            this.groupCommand = groupCommand;
+        }
+
+        public Builder withAliases(Set<String> groupAliases) {
+            this.groupAliases = groupAliases;
+            return this;
+        }
+
+        public Builder withPermissionHandler(IglooCommandPermissionHandler permissionHandler) {
+            this.permissionHandler = permissionHandler;
+            return this;
+        }
+
+        public Builder withCommand(IglooCommand command) {
+            commands.add(command);
+            return this;
+        }
+
+        public Builder withCommand(Supplier<IglooCommand> command) {
+            commands.add(command.get());
+            return this;
+        }
+
+        public IglooCommandGroup create() {
+            final IglooCommandGroup group = new IglooCommandGroup(groupCommand, groupAliases);
+
+            if (permissionHandler != null) {
+                group.setPermissionHandler(permissionHandler);
+            }
+
+            commands.forEach(group::registerCommand);
+
+            return group;
+        }
     }
 }
