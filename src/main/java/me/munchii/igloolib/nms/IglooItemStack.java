@@ -37,7 +37,23 @@ public final class IglooItemStack {
     }
 
     public Material getMaterial() {
-        return Material.getMaterial(getMaterialId());
+        return Material.matchMaterial(getMaterialId());
+    }
+
+    public int getAmount() {
+        return nmsStack.L();
+    }
+
+    public void setAmount(int amount) {
+        nmsStack.f(amount);
+    }
+
+    public void incrementAmount(int amount) {
+        setAmount(getAmount() + amount);
+    }
+
+    public void decrementAmount(int amount) {
+        incrementAmount(-amount);
     }
 
     public boolean isEmpty() {

@@ -12,11 +12,13 @@ import me.munchii.igloolib.gui.inventory.DefaultWindowListener;
 import me.munchii.igloolib.gui.toast.Toast;
 import me.munchii.igloolib.gui.toast.ToastStyle;
 import me.munchii.igloolib.gui.window.FurnaceWindow;
+import me.munchii.igloolib.gui.window.IglooWindow;
 import me.munchii.igloolib.nms.IglooBlockDisplay;
 import me.munchii.igloolib.registry.IglooRegistry;
 import me.munchii.igloolib.screen.ScreenListener;
 import me.munchii.igloolib.text.LocaleManager;
 import me.munchii.igloolib.util.*;
+import me.munchii.igloolib.util.Observer;
 import org.bukkit.*;
 import org.bukkit.block.data.type.Furnace;
 import org.bukkit.craftbukkit.v1_20_R2.inventory.util.CraftTileInventoryConverter;
@@ -48,6 +50,7 @@ public final class Igloolib extends JavaPlugin {
         registerListener(BlockEntityManager.ChunkListener::new);
         registerListener(DefaultWindowListener::new);
         registerListener(ScreenListener::new);
+        registerListener(IglooWindow.IglooWindowListener::new);
 
         commandManager = new CommandManager();
         commandManager.registerCommand(IglooCommand.create("yeet")
@@ -109,7 +112,10 @@ public final class Igloolib extends JavaPlugin {
 
                         }
                     });
-                    InventoryView view = furnaceWindow.open(ctx.getPlayer());
+                    //InventoryView view = furnaceWindow.open(ctx.getPlayer());
+                    //getLogger().severe("viewers=" + Arrays.toString(furnaceWindow.getViewers().toArray()));
+                    //getLogger().severe("viewers=" + furnaceWindow.getViewers().size());
+                    /*
                     view.setProperty(InventoryView.Property.TICKS_FOR_CURRENT_FUEL, 600); // total burn time
                     view.setProperty(InventoryView.Property.TICKS_FOR_CURRENT_SMELTING, 600); // total cook time
                     view.setProperty(InventoryView.Property.BURN_TIME, 300); // current burn time
@@ -121,6 +127,16 @@ public final class Igloolib extends JavaPlugin {
                         Logger.severe("fuel=" + furnaceWindow.getFuelSlot().getMaterialId());
                         Logger.severe("output=" + furnaceWindow.getOutputSlot().getMaterialId());
                     }, 20, TimeUnit.SECOND);
+                     */
+
+                    /*TaskManager.runAnonymousDelayedTask(() -> {
+                        getLogger().severe("viewers=" + Arrays.toString(furnaceWindow.getViewers().toArray()));
+                        getLogger().severe("viewers=" + furnaceWindow.getViewers().size());
+                    }, 15, TimeUnit.SECOND);*/
+
+                    Observer.BlockObserver.observe(ctx.getWorld().getBlockAt(new Location(ctx.getWorld(), -102.5, 117, -90.5))).subscribe(block -> {
+                       getLogger().severe("block=" + block.getType());
+                    });
 
                     return true;
                 })
