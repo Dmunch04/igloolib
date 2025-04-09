@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Locale;
 
 public interface Text {
-    class Literal implements Text {
+    final class Literal implements Text {
         private final String value;
 
         public Literal(String value) {
@@ -32,6 +32,29 @@ public interface Text {
         @Override
         public String toString() {
             return value;
+        }
+    }
+
+    final class Localized implements Text {
+        private final String key;
+
+        public Localized(String key) {
+            this.key = key;
+        }
+
+        @Override
+        public void send(@NotNull Player player) {
+            player.sendMessage(translatable(player, key).toString());
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return false;
+        }
+
+        @Override
+        public String toString() {
+            return translatable(null, key).toString();
         }
     }
 
