@@ -6,6 +6,7 @@ import me.munchii.igloolib.IgloolibConfig;
 import me.munchii.igloolib.nms.NbtCompound;
 import me.munchii.igloolib.registry.IglooRegistry;
 import me.munchii.igloolib.util.*;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -38,6 +39,11 @@ public enum BlockEntityManager {
 
     public static void clearBlockEntities() {
         INSTANCE.existingBlockEntities.clear();
+    }
+
+    public static void refreshBlockEntities() {
+        clearBlockEntities();
+        Bukkit.getWorlds().forEach(world -> Arrays.stream(world.getLoadedChunks()).forEach(BlockEntityManager::loadBlockEntitiesFromChunk));
     }
 
     @ApiStatus.Internal

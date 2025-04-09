@@ -87,12 +87,12 @@ public final class ImmutablePosition implements Position {
 
     @Override
     public boolean isInWorld(@NotNull World world) {
-        return world != null && isInWorld(world.getName());
+        return isInWorld(world.getName());
     }
 
     @Override
     public boolean isInWorld(@NotNull String worldName) {
-        return worldName != null && worldName.toLowerCase(Locale.ROOT).equals(this.worldName.toLowerCase(Locale.ROOT));
+        return worldName.toLowerCase(Locale.ROOT).equals(this.worldName.toLowerCase(Locale.ROOT));
     }
 
     @Override

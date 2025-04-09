@@ -20,6 +20,11 @@ public interface Text {
         }
 
         @Override
+        public String get(@Nullable Player player) {
+            return value;
+        }
+
+        @Override
         public void send(@NotNull Player player) {
             player.sendMessage(value);
         }
@@ -43,6 +48,11 @@ public interface Text {
         }
 
         @Override
+        public String get(@Nullable Player player) {
+            return translatable(player, key).toString();
+        }
+
+        @Override
         public void send(@NotNull Player player) {
             player.sendMessage(translatable(player, key).toString());
         }
@@ -57,6 +67,8 @@ public interface Text {
             return translatable(null, key).toString();
         }
     }
+
+    String get(@Nullable Player player);
 
     void send(@NotNull Player player);
 

@@ -18,8 +18,10 @@ import net.minecraft.world.level.block.state.IBlockData;
 import net.minecraft.world.level.block.state.properties.BlockPropertyWood;
 import net.minecraft.world.level.block.state.properties.IBlockState;
 import net.minecraft.world.level.chunk.Chunk;
+import org.bukkit.Axis;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_20_R2.entity.CraftPlayer;
+import org.bukkit.util.BoundingBox;
 
 public class Test {
     public static void test() {
