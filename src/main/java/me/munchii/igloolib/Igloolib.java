@@ -250,13 +250,28 @@ public final class Igloolib extends JavaPlugin {
                                 NamespacedKey blockEntityKey = NamespacedKey.fromString(blockEntityType);
                                 if (blockEntityKey == null) return false;
                                 IglooBlockEntityType<?> iglooBlockEntityType = IglooRegistry.BLOCK_ENTITY_TYPE.get(blockEntityKey);
+                                Set<IglooBlockEntity> blockEntities = BlockEntityManager.getBlockEntities();
 
                                 if (scope.equals("chunk")) {
-
+                                    Chunk chunk = ctx.getPlayer().getLocation().getChunk();
+                                    for (Location pos : LocationUtil.getLocationsInChunk(chunk)) {
+                                        if (BlockEntityManager.isBlockEntityAt(pos) && Objects.equals(BlockEntityManager.getBlockEntity(pos).getType(), iglooBlockEntityType)) {
+                                            BlockEntityManager.removeBlockEntity(pos);
+                                        }
+                                    }
                                 } else if (scope.equals("world")) {
-
+                                    World world = ctx.getWorld();
+                                    for (IglooBlockEntity blockEntity : blockEntities) {
+                                        if (Objects.equals(blockEntity.getWorld(), world) && Objects.equals(blockEntity.getType(), iglooBlockEntityType)) {
+                                            BlockEntityManager.removeBlockEntity(blockEntity.getPos());
+                                        }
+                                    }
                                 } else if (scope.equals("all")) {
-
+                                    for (IglooBlockEntity blockEntity : blockEntities) {
+                                        if (Objects.equals(blockEntity.getType(), iglooBlockEntityType)) {
+                                            BlockEntityManager.removeBlockEntity(blockEntity.getPos());
+                                        }
+                                    }
                                 } else return false;
 
                                 ctx.getPlayer().sendMessage("&7[igloolib] Cleared all block entities of type '" + blockEntityType + "'!");
