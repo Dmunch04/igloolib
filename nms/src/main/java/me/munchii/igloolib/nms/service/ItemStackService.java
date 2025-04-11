@@ -55,4 +55,36 @@ public interface ItemStackService {
      * @param nbt   The NBT data to associate with the ItemStack, or null to remove any existing NBT data.
      */
     void putNBT(net.minecraft.world.item.@NotNull ItemStack stack, net.minecraft.nbt.@Nullable NBTTagCompound nbt);
+
+    /**
+     * Retrieves the Item associated with the given ItemStack.
+     *
+     * @param stack The ItemStack from which to retrieve the associated Item. Must not be null.
+     * @return The Item associated with the provided ItemStack. Guaranteed to be non-null.
+     */
+    net.minecraft.world.item.@NotNull Item getItem(net.minecraft.world.item.@NotNull ItemStack stack);
+
+    /**
+     * Retrieves the amount of items in the specified ItemStack.
+     *
+     * @param stack The ItemStack from which the amount of items is to be retrieved. Must not be null.
+     * @return The amount of items in the specified ItemStack.
+     */
+    int getAmount(net.minecraft.world.item.@NotNull ItemStack stack);
+
+    /**
+     * Sets the amount of items in the specified ItemStack.
+     *
+     * @param stack The ItemStack for which the amount of items is to be set. Must not be null.
+     * @param amount The new amount of items to be set in the specified ItemStack.
+     */
+    void setAmount(net.minecraft.world.item.@NotNull ItemStack stack, int amount);
+
+    /**
+     * Determines whether the specified ItemStack is empty.
+     *
+     * @param stack The ItemStack to be checked. Must not be null.
+     * @return true if the ItemStack is empty, false otherwise.
+     */
+    boolean isEmpty(net.minecraft.world.item.@NotNull ItemStack stack);
 }

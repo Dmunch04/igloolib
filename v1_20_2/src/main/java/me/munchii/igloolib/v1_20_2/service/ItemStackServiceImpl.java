@@ -2,6 +2,7 @@ package me.munchii.igloolib.v1_20_2.service;
 
 import me.munchii.igloolib.nms.service.ItemStackService;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.bukkit.craftbukkit.v1_20_R2.inventory.CraftItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -39,5 +40,25 @@ public class ItemStackServiceImpl implements ItemStackService {
     public void putNBT(@NotNull ItemStack stack, @Nullable NBTTagCompound nbt) {
         // #setTag(nbt);
         stack.c(nbt);
+    }
+
+    @Override
+    public @NotNull Item getItem(@NotNull ItemStack stack) {
+        return stack.d();
+    }
+
+    @Override
+    public int getAmount(@NotNull ItemStack stack) {
+        return stack.L();
+    }
+
+    @Override
+    public void setAmount(@NotNull ItemStack stack, int amount) {
+        stack.f(amount);
+    }
+
+    @Override
+    public boolean isEmpty(@NotNull ItemStack stack) {
+        return stack.b();
     }
 }

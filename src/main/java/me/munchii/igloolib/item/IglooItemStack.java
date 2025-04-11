@@ -33,7 +33,7 @@ public final class IglooItemStack {
     }
 
     public String getMaterialId() {
-        return nmsStack.d().toString();
+        return NMSProvider.ITEM_STACK.getItem(nmsStack).toString();
     }
 
     public Material getMaterial() {
@@ -41,11 +41,11 @@ public final class IglooItemStack {
     }
 
     public int getAmount() {
-        return nmsStack.L();
+        return NMSProvider.ITEM_STACK.getAmount(nmsStack);
     }
 
     public void setAmount(int amount) {
-        nmsStack.f(amount);
+        NMSProvider.ITEM_STACK.setAmount(nmsStack, amount);
     }
 
     public void incrementAmount(int amount) {
@@ -57,7 +57,7 @@ public final class IglooItemStack {
     }
 
     public boolean isEmpty() {
-        return nmsStack.b();
+        return NMSProvider.ITEM_STACK.isEmpty(nmsStack);
     }
 
     public boolean hasNbt() {
