@@ -2,7 +2,7 @@ package me.munchii.igloolib.nms.service;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface PDCService {
+public interface PDCService extends Service<PDCService> {
     /**
      * Converts the provided PersistentDataContainer into an NBTTagCompound.
      *

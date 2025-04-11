@@ -1,8 +1,6 @@
 package me.munchii.igloolib.util;
 
-import me.munchii.igloolib.Igloolib;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 

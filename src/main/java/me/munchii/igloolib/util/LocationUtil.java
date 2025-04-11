@@ -2,8 +2,6 @@ package me.munchii.igloolib.util;
 
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.util.BoundingBox;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;

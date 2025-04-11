@@ -1,8 +1,8 @@
 package me.munchii.igloolib;
 
 import me.munchii.igloolib.nms.FactoryHolder;
-import me.munchii.igloolib.nms.service.*;
 import me.munchii.igloolib.nms.NMSFactory;
+import me.munchii.igloolib.nms.service.*;
 import org.bukkit.Bukkit;
 
 public class NMSProvider {
