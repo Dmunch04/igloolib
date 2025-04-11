@@ -1,11 +1,10 @@
 package me.munchii.igloolib.util;
 
+import me.munchii.igloolib.NMSProvider;
 import me.munchii.igloolib.text.Text;
 import net.minecraft.network.chat.IChatBaseComponent;
 import net.minecraft.network.protocol.game.ClientboundSystemChatPacket;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_20_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 public class Chat {
@@ -42,13 +41,14 @@ public class Chat {
     }
 
     public static void sendActionBar(Player player, String message) {
-        CraftPlayer craftPlayer = (CraftPlayer) player;
+        //CraftPlayer craftPlayer = (CraftPlayer) player;
         //IChatBaseComponent.ChatSerializer.fromJson(json)
         IChatBaseComponent cbc = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + message + "\"}");
         ClientboundSystemChatPacket packet = new ClientboundSystemChatPacket(cbc, true);
 
 
         // craftplayer.getHandle().connection.send(packet)
-        craftPlayer.getHandle().c.a(packet);
+        //craftPlayer.getHandle().c.a(packet);
+        NMSProvider.CRAFT_PLAYER.sendPacket(player, packet);
     }
 }

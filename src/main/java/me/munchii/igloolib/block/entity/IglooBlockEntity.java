@@ -1,7 +1,7 @@
 package me.munchii.igloolib.block.entity;
 
 import me.munchii.igloolib.block.IglooBlockItem;
-import me.munchii.igloolib.nms.IglooItemStack;
+import me.munchii.igloolib.item.IglooItemStack;
 import me.munchii.igloolib.nms.NbtCompound;
 import me.munchii.igloolib.registry.IglooRegistry;
 import me.munchii.igloolib.util.Logger;
@@ -62,7 +62,7 @@ public abstract class IglooBlockEntity {
     }
 
     public final NbtCompound createNbt() {
-        NbtCompound nbtCompound = new NbtCompound();
+        NbtCompound nbtCompound = NbtCompound.empty();
         writeNbt(nbtCompound);
         return nbtCompound;
     }

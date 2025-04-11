@@ -3,6 +3,7 @@ package me.munchii.igloolib.block.entity;
 import com.google.common.collect.ImmutableSet;
 import me.munchii.igloolib.Igloolib;
 import me.munchii.igloolib.IgloolibConfig;
+import me.munchii.igloolib.NMSProvider;
 import me.munchii.igloolib.nms.NbtCompound;
 import me.munchii.igloolib.registry.IglooRegistry;
 import me.munchii.igloolib.util.*;
@@ -11,7 +12,6 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_20_R2.persistence.CraftPersistentDataContainer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
@@ -77,6 +77,7 @@ public enum BlockEntityManager {
 
     @Nullable
     public static <E extends IglooBlockEntity> E getBlockEntityAt(@NotNull Location pos) {
+        //noinspection unchecked
         return (E) INSTANCE.existingBlockEntities.getOrDefault(pos, null);
     }
 
@@ -94,7 +95,7 @@ public enum BlockEntityManager {
 
         Chunk chunk = pos.getChunk();
 
-        CraftPersistentDataContainer pdc = blockEntity.createNbtWithIdentifyingData().toPersistentDataContainer();
+        PersistentDataContainer pdc = blockEntity.createNbtWithIdentifyingData().toPersistentDataContainer();
 
         PersistentDataContainer[] blockEntities = chunk.getPersistentDataContainer().get(BLOCK_ENTITIES_KEY, PersistentDataType.TAG_CONTAINER_ARRAY);
         if (blockEntities == null) {
@@ -115,8 +116,7 @@ public enum BlockEntityManager {
 
             List<PersistentDataContainer> newBlockEntities = new ArrayList<>();
             for (PersistentDataContainer pdc : blockEntities) {
-                CraftPersistentDataContainer cpdc = (CraftPersistentDataContainer) pdc;
-                NbtCompound nbt = new NbtCompound(cpdc.toTagCompound());
+                NbtCompound nbt = NbtCompound.of(NMSProvider.PDC.toTagCompound(pdc));
                 Location blockPos = chunk.getWorld().getBlockAt(nbt.getInt("x"), nbt.getInt("y"), nbt.getInt("z")).getLocation();
 
                 if (INSTANCE.existingBlockEntities.containsKey(blockPos)) {
@@ -144,8 +144,7 @@ public enum BlockEntityManager {
 
             List<PersistentDataContainer> newBlockEntities = new ArrayList<>();
             for (PersistentDataContainer pdc : blockEntities) {
-                CraftPersistentDataContainer cpdc = (CraftPersistentDataContainer) pdc;
-                NbtCompound nbt = new NbtCompound(cpdc.toTagCompound());
+                NbtCompound nbt = NbtCompound.of(NMSProvider.PDC.toTagCompound(pdc));
 
                 if (pos.getBlockX() == nbt.getInt("x") && pos.getBlockY() == nbt.getInt("y") && pos.getBlockZ() == nbt.getInt("z")) {
                     if (IgloolibConfig.verbose) Logger.info("BlockEntityManager: Successfully removed block entity '" + nbt.getString("id") + "' at " + pos);
@@ -166,8 +165,7 @@ public enum BlockEntityManager {
             if (blockEntities == null) return;
 
             for (PersistentDataContainer pdc : blockEntities) {
-                CraftPersistentDataContainer cpdc = (CraftPersistentDataContainer) pdc;
-                NbtCompound nbt = new NbtCompound(cpdc.toTagCompound());
+                NbtCompound nbt = NbtCompound.of(NMSProvider.PDC.toTagCompound(pdc));
 
                 Location blockPos = chunk.getWorld().getBlockAt(nbt.getInt("x"), nbt.getInt("y"), nbt.getInt("z")).getLocation();
                 IglooBlockEntity blockEntity = IglooBlockEntity.createFromNbt(blockPos, nbt);

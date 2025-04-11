@@ -1,21 +1,28 @@
 package me.munchii.igloolib;
 
-import me.munchii.igloolib.nms.service.ItemStackService;
-import me.munchii.igloolib.nms.service.NBTService;
+import me.munchii.igloolib.nms.FactoryHolder;
+import me.munchii.igloolib.nms.service.*;
 import me.munchii.igloolib.nms.NMSFactory;
 import org.bukkit.Bukkit;
 
 public class NMSProvider {
-    private static final NMSFactory nmsFactory;
+    public static final NMSFactory nmsFactory;
 
     public static final NBTService NBT;
     public static final ItemStackService ITEM_STACK;
+    public static final PDCService PDC;
+    public static final CraftPlayerService CRAFT_PLAYER;
+    public static final CraftServerService CRAFT_SERVER;
 
     static {
         nmsFactory = loadFactory();
+        FactoryHolder.setFactory(nmsFactory);
 
         NBT = nmsFactory.createNBTService();
         ITEM_STACK = nmsFactory.createItemStackService();
+        PDC = nmsFactory.createPDCService();
+        CRAFT_PLAYER = nmsFactory.createCraftPlayerService();
+        CRAFT_SERVER = nmsFactory.createCraftServerService();
     }
 
     private static NMSFactory loadFactory() {

@@ -1,9 +1,8 @@
-package me.munchii.igloolib.nms;
+package me.munchii.igloolib.item;
 
 import me.munchii.igloolib.NMSProvider;
 import me.munchii.igloolib.block.IglooBlock;
-import me.munchii.igloolib.item.IglooItem;
-import me.munchii.igloolib.util.NBTUtil;
+import me.munchii.igloolib.nms.NbtCompound;
 import net.minecraft.world.item.ItemStack;
 import org.bukkit.Material;
 import org.jetbrains.annotations.Nullable;
@@ -72,7 +71,7 @@ public final class IglooItemStack {
 
     public NbtCompound getOrCreateNbt() {
         if (nbtCompound == null) {
-            nbtCompound = new NbtCompound(NMSProvider.ITEM_STACK.getNBT(nmsStack));
+            nbtCompound = NbtCompound.of(nmsStack);
         }
 
         return nbtCompound;
@@ -82,7 +81,7 @@ public final class IglooItemStack {
         if (nbtCompound != null && nbtCompound.contains(key, 10)) {
             return nbtCompound.getCompound(key);
         } else {
-            NbtCompound nbt = new NbtCompound();
+            NbtCompound nbt = NbtCompound.empty();
             setSubNbt(key, nbt);
             return nbt;
         }

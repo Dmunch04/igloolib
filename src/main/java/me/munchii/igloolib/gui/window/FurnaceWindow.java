@@ -1,7 +1,7 @@
 package me.munchii.igloolib.gui.window;
 
 import me.munchii.igloolib.Igloolib;
-import me.munchii.igloolib.nms.IglooItemStack;
+import me.munchii.igloolib.item.IglooItemStack;
 import me.munchii.igloolib.player.IglooPlayer;
 import me.munchii.igloolib.util.*;
 import org.bukkit.Bukkit;

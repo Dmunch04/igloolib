@@ -1,14 +1,12 @@
 package me.munchii.igloolib.command;
 
 import me.munchii.igloolib.Igloolib;
+import me.munchii.igloolib.NMSProvider;
 import me.munchii.igloolib.util.ArrayUtil;
-import me.munchii.igloolib.util.Logger;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.craftbukkit.v1_20_R2.CraftServer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -50,7 +48,7 @@ public class IglooCommandGroup implements CommandExecutor, TabCompleter, Listene
 
         Objects.requireNonNull(Igloolib.INSTANCE.getCommand(groupCommand)).setExecutor(this);
         Objects.requireNonNull(Igloolib.INSTANCE.getCommand(groupCommand)).setTabCompleter(this);
-        Objects.requireNonNull(Igloolib.INSTANCE.getCommand(groupCommand)).register(((CraftServer) Igloolib.INSTANCE.getServer()).getCommandMap());
+        Objects.requireNonNull(Igloolib.INSTANCE.getCommand(groupCommand)).register(NMSProvider.CRAFT_SERVER.getCommandMap(Igloolib.INSTANCE.getServer()));
         enableAll();
         enabled = true;
     }
@@ -60,7 +58,7 @@ public class IglooCommandGroup implements CommandExecutor, TabCompleter, Listene
 
         Objects.requireNonNull(Igloolib.INSTANCE.getCommand(groupCommand)).setExecutor(null);
         Objects.requireNonNull(Igloolib.INSTANCE.getCommand(groupCommand)).setTabCompleter(null);
-        Objects.requireNonNull(Igloolib.INSTANCE.getCommand(groupCommand)).unregister(((CraftServer) Igloolib.INSTANCE.getServer()).getCommandMap());
+        Objects.requireNonNull(Igloolib.INSTANCE.getCommand(groupCommand)).unregister(NMSProvider.CRAFT_SERVER.getCommandMap(Igloolib.INSTANCE.getServer()));
         disableAll();
         enabled = false;
     }

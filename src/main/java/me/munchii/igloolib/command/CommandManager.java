@@ -1,17 +1,16 @@
 package me.munchii.igloolib.command;
 
 import me.munchii.igloolib.Igloolib;
+import me.munchii.igloolib.NMSProvider;
 import me.munchii.igloolib.util.ArrayUtil;
 import me.munchii.igloolib.util.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
-import org.bukkit.craftbukkit.v1_20_R2.CraftServer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -62,14 +61,14 @@ public class CommandManager implements CommandExecutor, TabCompleter, Listener {
     private void linkCommand(IglooCommand command) {
         Objects.requireNonNull(Bukkit.getPluginCommand(command.getCommand())).setExecutor(this);
         Objects.requireNonNull(Bukkit.getPluginCommand(command.getCommand())).setTabCompleter(this);
-        Objects.requireNonNull(Bukkit.getPluginCommand(command.getCommand())).register(((CraftServer) Igloolib.INSTANCE.getServer()).getCommandMap());
+        Objects.requireNonNull(Bukkit.getPluginCommand(command.getCommand())).register(NMSProvider.CRAFT_SERVER.getCommandMap(Igloolib.INSTANCE.getServer()));
         command.setEnabled(true);
     }
 
     private void unlinkCommand(IglooCommand command) {
         Objects.requireNonNull(Bukkit.getPluginCommand(command.getCommand())).setExecutor(null);
         Objects.requireNonNull(Bukkit.getPluginCommand(command.getCommand())).setTabCompleter(null);
-        Objects.requireNonNull(Bukkit.getPluginCommand(command.getCommand())).unregister(((CraftServer) Igloolib.INSTANCE.getServer()).getCommandMap());
+        Objects.requireNonNull(Bukkit.getPluginCommand(command.getCommand())).unregister(NMSProvider.CRAFT_SERVER.getCommandMap(Igloolib.INSTANCE.getServer()));
         command.setEnabled(false);
     }
 
@@ -78,7 +77,7 @@ public class CommandManager implements CommandExecutor, TabCompleter, Listener {
         commandGroup.enable();
         Objects.requireNonNull(Bukkit.getPluginCommand(commandGroup.getGroupCommand())).setExecutor(this);
         Objects.requireNonNull(Bukkit.getPluginCommand(commandGroup.getGroupCommand())).setTabCompleter(this);
-        Objects.requireNonNull(Bukkit.getPluginCommand(commandGroup.getGroupCommand())).register(((CraftServer) Igloolib.INSTANCE.getServer()).getCommandMap());
+        Objects.requireNonNull(Bukkit.getPluginCommand(commandGroup.getGroupCommand())).register(NMSProvider.CRAFT_SERVER.getCommandMap(Igloolib.INSTANCE.getServer()));
         commandGroup.setPermissionHandler(permissionHandler);
 
         //commandGroup.enable();
@@ -90,7 +89,7 @@ public class CommandManager implements CommandExecutor, TabCompleter, Listener {
         commandGroup.disable();
         Objects.requireNonNull(Bukkit.getPluginCommand(commandGroup.getGroupCommand())).setExecutor(null);
         Objects.requireNonNull(Bukkit.getPluginCommand(commandGroup.getGroupCommand())).setTabCompleter(null);
-        Objects.requireNonNull(Bukkit.getPluginCommand(commandGroup.getGroupCommand())).unregister(((CraftServer) Igloolib.INSTANCE.getServer()).getCommandMap());
+        Objects.requireNonNull(Bukkit.getPluginCommand(commandGroup.getGroupCommand())).unregister(NMSProvider.CRAFT_SERVER.getCommandMap(Igloolib.INSTANCE.getServer()));
         commandGroup.setPermissionHandler(permissionHandler);
 
         //commandGroup.disable();

@@ -1,4 +1,4 @@
-package me.munchii.igloolib.v1_20_2;
+package me.munchii.igloolib.v1_20_2.service;
 
 import me.munchii.igloolib.nms.service.ItemStackService;
 import net.minecraft.nbt.NBTTagCompound;
