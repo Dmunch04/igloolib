@@ -1,9 +1,9 @@
-package me.munchii.igloolib.v1_20_2;
+package me.munchii.igloolib.nms.v1_20_2;
 
 import me.munchii.igloolib.nms.NbtCompound;
 import me.munchii.igloolib.nms.service.*;
 import me.munchii.igloolib.nms.NMSFactory;
-import me.munchii.igloolib.v1_20_2.service.*;
+import me.munchii.igloolib.nms.v1_20_2.service.*;
 import net.minecraft.nbt.NBTTagCompound;
 import org.jetbrains.annotations.NotNull;
 
@@ -46,6 +46,6 @@ public class NMSFactoryImpl implements NMSFactory {
 
     @Override
     public @NotNull NbtCompound createNbtCompound(NBTTagCompound compound) {
-        return NbtCompoundImpl.of(compound);
+        return new NbtCompoundImpl(compound);
     }
 }

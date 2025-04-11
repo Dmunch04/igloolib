@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'maven-publish'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 group = 'me.munchii'
@@ -72,6 +73,22 @@ tasks.withType(Jar).configureEach {
     archiveVersion.set("${libraryVersion}-${version}")
 }
 
+// Configure the Shadow JAR
+tasks.withType(com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar).configureEach {
+    archiveClassifier.set('') // No classifier (this will replace the default "regular" JAR)
+    archiveBaseName.set('igloolib')
+    archiveVersion.set("${libraryVersion}-${version}")
+
+    // Optionally: Exclude META-INF files from dependencies for a cleaner JAR.
+    exclude 'META-INF/*.SF'
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+}
+
+artifacts {
+    archives shadowJar // Add the Shadow JAR to the published artifacts
+}
+
 tasks.register('buildAllVersions') {
     group = 'build'
     description = 'Builds plugin JARs for all supported Minecraft/Spigot versions'
@@ -80,7 +97,8 @@ tasks.register('buildAllVersions') {
         supportedLibraryVersions.each { version ->
             println "Building for libraryVersion: $version"
             exec {
-                commandLine 'gradle', 'build', '-PlibraryVersion=' + version
+                //commandLine 'gradle', 'build', '-PlibraryVersion=' + version
+                commandLine 'gradle', 'shadowJar', '-PlibraryVersion=' + version
             }
         }
     }

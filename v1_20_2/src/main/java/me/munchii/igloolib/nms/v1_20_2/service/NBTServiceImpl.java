@@ -1,4 +1,4 @@
-package me.munchii.igloolib.v1_20_2.service;
+package me.munchii.igloolib.nms.v1_20_2.service;
 
 import me.munchii.igloolib.nms.service.NBTService;
 import net.minecraft.nbt.NBTBase;
