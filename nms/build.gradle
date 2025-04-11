@@ -1,0 +1,36 @@
+plugins {
+    id("java")
+}
+
+group = "me.munchii.igloolib"
+version = "1.0.0"
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+
+    flatDir {
+        dirs '../lib'
+    }
+}
+
+dependencies {
+    if (!project.hasProperty('libraryVersion')) {
+        throw new GradleException("NMS 'libraryVersion' flag not set!");
+    }
+
+    implementation 'org.jetbrains:annotations:24.0.0'
+
+    if (project.libraryVersion == '1.20.2') {
+        compileOnly "org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT"
+        compileOnly "org.spigotmc:spigot:1.20.2-R0.1-SNAPSHOT"
+        compileOnly "org.spigotmc:minecraft-server:1.20.2-R0.1-SNAPSHOT"
+    } else {
+        throw new GradleException("Unsupported NMS library version: " + project.libraryVersion);
+    }
+}

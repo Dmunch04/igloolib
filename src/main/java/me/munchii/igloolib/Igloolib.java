@@ -44,6 +44,12 @@ public final class Igloolib extends JavaPlugin {
     public void onEnable() {
         INSTANCE = this;
 
+        if (!NMSProvider.isSupportedVersion()) {
+            getLogger().severe("Unsupported server version! Disabling plugin...");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
         new Configuration(IgloolibConfig.class, this);
 
         registerListener(DefaultBlockEntityListener::new);

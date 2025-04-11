@@ -1,5 +1,6 @@
 package me.munchii.igloolib.nms;
 
+import me.munchii.igloolib.NMSProvider;
 import me.munchii.igloolib.util.NBTUtil;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.item.ItemStack;
@@ -27,169 +28,169 @@ public final class NbtCompound {
     }
 
     public static NbtCompound of(ItemStack stack) {
-        return new NbtCompound(NBTUtil.getItemNBT(stack));
+        return new NbtCompound(NMSProvider.ITEM_STACK.getNBT(stack));
     }
 
     public static NbtCompound of(org.bukkit.inventory.ItemStack stack) {
-        return new NbtCompound(NBTUtil.getItemNBT(stack));
+        return new NbtCompound(NMSProvider.ITEM_STACK.getNBT(stack));
     }
 
     public static NbtCompound of(NbtCompound compound) {
         NbtCompound nbt = new NbtCompound();
-        nbt.compound = NBTUtil.nbtCopyFrom(nbt.compound, compound.compound);
+        nbt.compound = NMSProvider.NBT.copy(compound.compound, nbt.compound);
         return nbt;
     }
 
     public void putCompound(String key, NbtCompound compound) {
-        NBTUtil.nbtPutCompound(this.compound, key, compound.compound);
+        NMSProvider.NBT.putCompound(this.compound, key, compound.compound);
     }
 
     public void putCompound(String key, NBTTagCompound compound) {
-        NBTUtil.nbtPutCompound(this.compound, key, compound);
+        NMSProvider.NBT.putCompound(this.compound, key, compound);
     }
 
     public void putByte(String key, byte value) {
-        NBTUtil.nbtPutByte(compound, key, value);
+        NMSProvider.NBT.putByte(compound, key, value);
     }
 
     public void putShort(String key, short value) {
-        NBTUtil.nbtPutShort(compound, key, value);
+        NMSProvider.NBT.putShort(compound, key, value);
     }
 
     public void putInt(String key, int value) {
-        NBTUtil.nbtPutInt(compound, key, value);
+        NMSProvider.NBT.putInt(compound, key, value);
     }
 
     public void putLong(String key, long value) {
-        NBTUtil.nbtPutLong(compound, key, value);
+        NMSProvider.NBT.putLong(compound, key, value);
     }
 
     public void putUUID(String key, UUID value) {
-        NBTUtil.nbtPutUUID(compound, key, value);
+        NMSProvider.NBT.putUUID(compound, key, value);
     }
 
     public void putFloat(String key, float value) {
-        NBTUtil.nbtPutFloat(compound, key, value);
+        NMSProvider.NBT.putFloat(compound, key, value);
     }
 
     public void putDouble(String key, double value) {
-        NBTUtil.nbtPutDouble(compound, key, value);
+        NMSProvider.NBT.putDouble(compound, key, value);
     }
 
     public void putString(String key, String value) {
-        NBTUtil.nbtPutString(compound, key, value);
+        NMSProvider.NBT.putString(compound, key, value);
     }
 
     public void putByteArray(String key, byte[] value) {
-        NBTUtil.nbtPutByteArray(compound, key, value);
+        NMSProvider.NBT.putByteArray(compound, key, value);
     }
 
     public void putByteArray(String key, List<Byte> value) {
-        NBTUtil.nbtPutByteArray(compound, key, value);
+        NMSProvider.NBT.putByteArray(compound, key, value);
     }
 
     public void putIntArray(String key, int[] value) {
-        NBTUtil.nbtPutIntArray(compound, key, value);
+        NMSProvider.NBT.putIntArray(compound, key, value);
     }
 
     public void putIntArray(String key, List<Integer> value) {
-        NBTUtil.nbtPutIntArray(compound, key, value);
+        NMSProvider.NBT.putIntArray(compound, key, value);
     }
 
     public void putLongArray(String key, long[] value) {
-        NBTUtil.nbtPutLongArray(compound, key, value);
+        NMSProvider.NBT.putLongArray(compound, key, value);
     }
 
     public void putLongArray(String key, List<Long> value) {
-        NBTUtil.nbtPutLongArray(compound, key, value);
+        NMSProvider.NBT.putLongArray(compound, key, value);
     }
 
     public void putBoolean(String key, boolean value) {
-        NBTUtil.nbtPutBoolean(compound, key, value);
+        NMSProvider.NBT.putBoolean(compound, key, value);
     }
 
     public NbtCompound getCompound(String key) {
-        return new NbtCompound(NBTUtil.nbtGetCompound(compound, key));
+        return new NbtCompound(NMSProvider.NBT.getCompound(compound, key));
     }
 
     public NBTTagCompound getRawCompound(String key) {
-        return NBTUtil.nbtGetCompound(compound, key);
+        return NMSProvider.NBT.getCompound(compound, key);
     }
 
     public byte getByte(String key) {
-        return NBTUtil.nbtGetByte(compound, key);
+        return NMSProvider.NBT.getByte(compound, key);
     }
 
     public short getShort(String key) {
-        return NBTUtil.nbtGetShort(compound, key);
+        return NMSProvider.NBT.getShort(compound, key);
     }
 
     public int getInt(String key) {
-        return NBTUtil.nbtGetInt(compound, key);
+        return NMSProvider.NBT.getInt(compound, key);
     }
 
     public long getLong(String key) {
-        return NBTUtil.nbtGetLong(compound, key);
+        return NMSProvider.NBT.getLong(compound, key);
     }
 
     public UUID getUUID(String key) {
-        return NBTUtil.nbtGetUUID(compound, key);
+        return NMSProvider.NBT.getUUID(compound, key);
     }
 
     public float getFloat(String key) {
-        return NBTUtil.nbtGetFloat(compound, key);
+        return NMSProvider.NBT.getFloat(compound, key);
     }
 
     public double getDouble(String key) {
-        return NBTUtil.nbtGetDouble(compound, key);
+        return NMSProvider.NBT.getDouble(compound, key);
     }
 
     public String getString(String key) {
-        return NBTUtil.nbtGetString(compound, key);
+        return NMSProvider.NBT.getString(compound, key);
     }
 
     public byte[] getByteArray(String key) {
-        return NBTUtil.nbtGetByteArray(compound, key);
+        return NMSProvider.NBT.getByteArray(compound, key);
     }
 
     public int[] getIntArray(String key) {
-        return NBTUtil.nbtGetIntArray(compound, key);
+        return NMSProvider.NBT.getIntArray(compound, key);
     }
 
     public long[] getLongArray(String key) {
-        return NBTUtil.nbtGetLongArray(compound, key);
+        return NMSProvider.NBT.getLongArray(compound, key);
     }
 
     public boolean getBoolean(String key) {
-        return NBTUtil.nbtGetBoolean(compound, key);
+        return NMSProvider.NBT.getBoolean(compound, key);
     }
 
     public boolean contains(String key) {
-        return NBTUtil.nbtContainsKey(compound, key);
+        return NMSProvider.NBT.hasKey(compound, key);
     }
 
     public boolean contains(String key, int type) {
-        return NBTUtil.nbtContains(compound, key, type);
+        return NMSProvider.NBT.has(compound, key, type);
     }
 
     public void remove(String key) {
-        NBTUtil.nbtRemoveEntry(compound, key);
+        NMSProvider.NBT.remove(compound, key);
     }
 
     public int size() {
-        return NBTUtil.nbtGetSize(compound);
+        return NMSProvider.NBT.getSize(compound);
     }
 
     public Set<String> keySet() {
-        return NBTUtil.nbtGetKeySet(compound);
+        return NMSProvider.NBT.getKeySet(compound);
     }
 
     public void copyFrom(NbtCompound compound) {
-        this.compound = NBTUtil.nbtCopyFrom(this.compound, compound.compound);
+        this.compound = NMSProvider.NBT.copy(this.compound, compound.compound);
     }
 
     public void copyFrom(NBTTagCompound compound) {
-        this.compound = NBTUtil.nbtCopyFrom(this.compound, compound);
+        this.compound = NMSProvider.NBT.copy(this.compound, compound);
     }
 
     public void copyInto(@NotNull ItemMeta meta) {
@@ -197,7 +198,7 @@ public final class NbtCompound {
     }
 
     public boolean isEmpty() {
-        return NBTUtil.nbtIsEmpty(compound);
+        return NMSProvider.NBT.isEmpty(compound);
     }
 
     public NBTTagCompound getCompound() {

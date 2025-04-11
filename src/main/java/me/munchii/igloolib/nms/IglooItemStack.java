@@ -1,5 +1,6 @@
 package me.munchii.igloolib.nms;
 
+import me.munchii.igloolib.NMSProvider;
 import me.munchii.igloolib.block.IglooBlock;
 import me.munchii.igloolib.item.IglooItem;
 import me.munchii.igloolib.util.NBTUtil;
@@ -17,11 +18,11 @@ public final class IglooItemStack {
     }
 
     public static IglooItemStack of(org.bukkit.inventory.ItemStack stack) {
-        return new IglooItemStack(NBTUtil.getNMSStack(stack));
+        return new IglooItemStack(NMSProvider.ITEM_STACK.asNMSCopy(stack));
     }
 
     public static IglooItemStack of(Material material) {
-        return new IglooItemStack(NBTUtil.getNMSStack(new org.bukkit.inventory.ItemStack(material)));
+        return new IglooItemStack(NMSProvider.ITEM_STACK.asNMSCopy(new org.bukkit.inventory.ItemStack(material)));
     }
 
     public static IglooItemStack of(IglooItem item) {
@@ -71,7 +72,7 @@ public final class IglooItemStack {
 
     public NbtCompound getOrCreateNbt() {
         if (nbtCompound == null) {
-            nbtCompound = new NbtCompound(NBTUtil.getItemNBT(nmsStack));
+            nbtCompound = new NbtCompound(NMSProvider.ITEM_STACK.getNBT(nmsStack));
         }
 
         return nbtCompound;
@@ -112,7 +113,7 @@ public final class IglooItemStack {
 
     private void prepare() {
         getOrCreateNbt();
-        NBTUtil.putItemNBT(nmsStack, nbtCompound != null ? nbtCompound.getCompound() : null);
+        NMSProvider.ITEM_STACK.putNBT(nmsStack, nbtCompound != null ? nbtCompound.getCompound() : null);
     }
 
     public ItemStack asNMSStack() {
@@ -122,6 +123,6 @@ public final class IglooItemStack {
 
     public org.bukkit.inventory.ItemStack asBukkitStack() {
         prepare();
-        return NBTUtil.getBukkitStack(nmsStack);
+        return NMSProvider.ITEM_STACK.asBukkitCopy(nmsStack);
     }
 }

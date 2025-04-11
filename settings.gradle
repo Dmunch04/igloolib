@@ -3,3 +3,6 @@ plugins {
 }
 
 rootProject.name = 'igloolib'
+include 'nms'
+include 'v1_20_2'
+

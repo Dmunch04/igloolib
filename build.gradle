@@ -4,7 +4,12 @@ plugins {
 }
 
 group = 'me.munchii'
-version = '1.20.2-1.4'
+version = '1.4.0'
+
+ext {
+    libraryVersion = project.hasProperty('libraryVersion') ? project.libraryVersion : '1.20.2'
+    supportedLibraryVersions = ['1.20.2']
+}
 
 repositories {
     mavenCentral()
@@ -17,12 +22,20 @@ repositories {
         name = "sonatype"
         url = "https://oss.sonatype.org/content/groups/public/"
     }
-    flatDir {
-        dirs 'lib'
-    }
+    //flatDir {
+    //    dirs 'lib'
+    //}
 }
 
 dependencies {
+    implementation project(':nms')
+
+    if (libraryVersion == '1.20.2') {
+        implementation project(':v1_20_2')
+    } else {
+        throw new GradleException("Unsupported NMS library version: " + libraryVersion)
+    }
+
     implementation 'org.jetbrains:annotations:24.0.0'
     // commons-io version 20030203.000550 does not have FileUtils.readFileToString
     implementation group: 'commons-io', name: 'commons-io', version: '2.6'
@@ -54,6 +67,25 @@ tasks.withType(JavaCompile).configureEach {
     }
 }
 
+tasks.withType(Jar).configureEach {
+    archiveBaseName.set('igloolib')
+    archiveVersion.set("${libraryVersion}-${version}")
+}
+
+tasks.register('buildAllVersions') {
+    group = 'build'
+    description = 'Builds plugin JARs for all supported Minecraft/Spigot versions'
+
+    doLast {
+        supportedLibraryVersions.each { version ->
+            println "Building for libraryVersion: $version"
+            exec {
+                commandLine 'gradle', 'build', '-PlibraryVersion=' + version
+            }
+        }
+    }
+}
+
 processResources {
     def props = [version: version]
     inputs.properties props
@@ -62,7 +94,6 @@ processResources {
         expand props
     }
 }
-
 
 publishing {
     repositories {
