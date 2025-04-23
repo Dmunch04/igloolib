@@ -5,4 +5,4 @@ plugins {
 rootProject.name = 'igloolib'
 include 'nms'
 include 'v1_20_2'
-
+include 'v1_21_1'
